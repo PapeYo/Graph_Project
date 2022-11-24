@@ -18,6 +18,22 @@ type path = string
 
 *)
 
+let export path graph =
+
+  (* Open a write-file. *)
+  let ff = open_out path in
+
+  (* Write in this file. *)
+  fprintf ff "%% This is an exported graph.\n\n" ;
+
+  (* Write all arcs *)
+  e_iter graph (fun id1 id2 lbl -> fprintf ff "%d -> %d [label = \"%s\"]; \n" id1 id2 lbl) ;
+
+  fprintf ff "\n%% End of exported graph\n" ;
+
+  close_out ff ;
+  ()
+
 let write_file path graph =
 
   (* Open a write-file. *)
@@ -98,4 +114,3 @@ let from_file path =
 
   close_in infile ;
   final_graph
-
