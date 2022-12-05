@@ -38,8 +38,8 @@ let () =
 
   let print_path gr s t =
     match find_path gr [] s t with
-      | None -> Printf.printf "Pas de chemin allant de %d à %d \n" s t
-      | Some l ->
+      | [] -> Printf.printf "Pas de chemin allant de %d à %d \n" s t
+      | l ->
         List.iter (Printf.printf "%d ") l;
         Printf.printf "\n";
   in
@@ -55,3 +55,6 @@ let () =
   print_path gr1 1 10;
   Printf.printf("Chemin de 0 à 12 : ");
   print_path gr1 0 12;
+  Printf.printf("Chemin de 1 à 7 : ");
+  print_path gr1 1 7;
+  Printf.printf "Min flow entre %d et %d : %d \n" 0 12 (find_max_acceptable_flow gr1 (find_path gr1 [] 0 12));
