@@ -30,25 +30,28 @@ let () =
   (* Open file *)
   let graph = from_file infile in
 
-  let gr1 = clone_nodes graph in
-  let gr2 = gmap graph (fun x -> "Le résultat est " ^ x) in
-  let gr3 = add_arc (gmap graph (fun x -> int_of_string x)) 0 1 3 in
-  let gr4 = add_arc (gmap graph (fun x -> int_of_string x)) 0 4 53 in
-
+  let gr1 = gmap graph (fun x -> int_of_string x) in
   (* Rewrite the graph that has been read. *)
   let () = 
-    export outfile gr1;
-    export outfile gr2;
-    export outfile (gmap gr3 (fun x -> string_of_int x));
-    export outfile (gmap gr4 (fun x -> string_of_int x));
+    export outfile graph;
   in
 
   let print_path gr s t =
     match find_path gr [] s t with
-      | None -> Printf.printf "Pas de chemin"
-      | Some l -> List.iter (Printf.printf "%d ") l;
+      | None -> Printf.printf "Pas de chemin allant de %d à %d \n" s t
+      | Some l ->
+        List.iter (Printf.printf "%d ") l;
+        Printf.printf "\n";
   in
 
   ();
+  Printf.printf("Chemin de 12 à 12 : ");
+  print_path gr1 12 12;
+  Printf.printf("Chemin de 12 à 4 : ");
+  print_path gr1 12 4;
+  Printf.printf("Chemin de 1 à 2 : ");
+  print_path gr1 1 2;
+  Printf.printf("Chemin de 1 à 10 : ");
+  print_path gr1 1 10;
   Printf.printf("Chemin de 0 à 12 : ");
-  print_path gr3 0 12;
+  print_path gr1 0 12;
