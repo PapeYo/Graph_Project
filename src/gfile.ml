@@ -55,8 +55,8 @@ let write_file path graph =
   ()
 
 (* Reads a line with a node. *)
-let read_node id graph line =
-  try Scanf.sscanf line "n %f %f" (fun _ _ -> new_node graph id)
+let read_node graph line =
+  try Scanf.sscanf line "n %f %f %d" (fun _ _ id-> new_node graph id)
   with e ->
     Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"
@@ -67,7 +67,7 @@ let ensure graph id = if node_exists graph id then graph else new_node graph id
 
 (* Reads a line with an arc. *)
 let read_arc graph line =
-  try Scanf.sscanf line "e %d %d %s"
+  try Scanf.sscanf line "e %d %d %_d %s@%%"
         (fun id1 id2 label -> new_arc (ensure (ensure graph id1) id2) id1 id2 label)
   with e ->
     Printf.printf "Cannot read arc in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
@@ -99,7 +99,7 @@ let from_file path =
 
         (* The first character of a line determines its content : n or e. *)
         else match line.[0] with
-          | 'n' -> (n+1, read_node n graph line)
+          | 'n' -> (n+1, read_node graph line)
           | 'e' -> (n, read_arc graph line)
 
           (* It should be a comment, otherwise we complain. *)
