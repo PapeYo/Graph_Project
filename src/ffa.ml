@@ -1,7 +1,9 @@
 open Graph
+open Tools
 
 type path = id list
   
+(* find a path going from s to t in a graph *)
 let rec find_path gr forbidden s t =
   let rec out_arcs_iter = function
   | [] -> []
@@ -11,11 +13,10 @@ let rec find_path gr forbidden s t =
   | path -> List.append [s] path)
 else out_arcs_iter rest
 in
-begin
   if s = t
   then [s] else out_arcs_iter (out_arcs gr s)
-end
 
+(* find the maximum acceptable flow on a given path*)
 let find_max_acceptable_flow gr path =
   let rec loop gr path aux = match path with
   | [] -> aux
@@ -28,11 +29,20 @@ let find_max_acceptable_flow gr path =
   | id3::_ -> loop gr (id2::rest) (flow::aux)
   | [] -> (flow::aux)))
 in
-begin
   match loop gr path [] with
   | [] -> 0
-  | list ->
-    List.iter (Printf.printf "%d ") list;
-    Printf.printf "\n";
-    List.hd (List.sort compare list);
-end
+  | list -> List.hd (List.sort compare list)
+
+(* update a graph by adding the max acceptable flow on a given path *)
+let rec update_residual_graph gr path flow =
+  match path with
+  | [] -> gr
+  | id1::[] -> gr
+  | id1::id2::rest -> update_residual_graph (add_arc gr id1 id2 flow) (id2::rest) flow
+
+  (* Ford-Fulkerson Algorithm*)
+let ffalgo gr s t =
+  let gr1 = clone_nodes gr in
+  let path1 = find_path gr [] s t in
+  let flow1 = find_max_acceptable_flow gr path1 in
+  update_residual_graph gr1 path1 flow1

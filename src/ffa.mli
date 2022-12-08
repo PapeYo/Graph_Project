@@ -12,3 +12,5 @@ type path = id list
 val find_path: int graph -> id list -> id -> id -> path
 
 val find_max_acceptable_flow: int graph -> path -> int
+
+val ffalgo: int graph -> id -> id -> int graph
