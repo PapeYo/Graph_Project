@@ -16,7 +16,7 @@ in
   if s = t
   then [s] else out_arcs_iter (out_arcs gr s)
 
-(* find the maximum acceptable flow on a given path*)
+(* find the maximum acceptable flow on a given path *)
 let find_max_acceptable_flow gr path =
   let rec loop gr path aux = match path with
   | [] -> aux
@@ -41,8 +41,13 @@ let rec update_residual_graph gr path flow =
   | id1::[] -> gr
   | id1::id2::rest -> update_residual_graph (add_arc (add_arc gr id1 id2 (-flow)) id2 id1 flow) (id2::rest) flow
 
-(* Ford-Fulkerson Algorithm*)
-let ffalgo gr s t =
-  let path1 = find_path gr [] s t in
-  let flow1 = find_max_acceptable_flow gr path1 in
-  update_residual_graph gr path1 flow1
+(* Ford-Fulkerson Algorithm *)
+let rec ffalgo gr s t =
+  match find_path gr [] s t with
+  | [] -> gr
+  | path1 ->
+    List.iter (Printf.printf "%d ") path1;
+    Printf.printf "\n";
+    let flow1 = find_max_acceptable_flow gr path1 in
+    let gr1 = update_residual_graph gr path1 flow1 in
+    ffalgo gr1 s t
