@@ -24,12 +24,17 @@ let export path graph =
   let ff = open_out path in
 
   (* Write in this file. *)
-  fprintf ff "%% This is an exported graph.\n\n" ;
+  fprintf ff "digraph finite_state_machine {\n";
+  fprintf ff "\t fontname=\"Helvetica,Arial,sans-serif\"\n";
+  fprintf ff "\t node [fontname=\"Helvetica,Arial,sans-serif\"]\n";
+  fprintf ff "\t edge [fontname=\"Helvetica,Arial,sans-serif\"]\n";
+  fprintf ff "\t rankdir=LR;\n";
+  fprintf ff "\t node [shape = circle];\n";
 
   (* Write all arcs *)
-  e_iter graph (fun id1 id2 lbl -> fprintf ff "%d -> %d [label = \"%s\"]; \n" id1 id2 lbl) ;
+  e_iter graph (fun id1 id2 lbl -> fprintf ff "\t %d -> %d [label = \"%s\"]; \n" id1 id2 lbl) ;
 
-  fprintf ff "\n%% End of exported graph\n" ;
+  fprintf ff "}\n" ;
 
   close_out ff ;
   ()
