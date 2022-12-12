@@ -11,6 +11,14 @@ type path = id list
  *)
 val find_path: int graph -> id list -> id -> id -> path
 
+(* find the maximum acceptable flow on a given path *)
 val find_max_acceptable_flow: int graph -> path -> int
 
+(* update a graph by adding the max acceptable flow on a given path *)
+val update_residual_graph: int graph -> path -> int -> int graph
+
+(* remove arcs having label = 0 from a graph *)
+(* val remove_zero_label: int graph -> int graph *)
+
+(* Ford-Fulkerson Algorithm *)
 val ffalgo: int graph -> id -> id -> int graph
