@@ -1,4 +1,4 @@
-Ocaml project : Ford-Kulkerson algorithm by **Yohan JARNAC and Valentin GUITTARD**
+Ocaml project : Ford-Fulkerson algorithm (minimal project) by **Yohan JARNAC and Valentin GUITTARD**
 
 A makefile provides some useful commands:
  - `make build` to compile. This creates an ftest.native executable
