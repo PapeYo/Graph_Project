@@ -23,18 +23,20 @@ let () =
   and outfile = Sys.argv.(4)
   
   (* These command-line arguments are not used for the moment. *)
-  and _source = int_of_string Sys.argv.(2)
-  and _sink = int_of_string Sys.argv.(3)
+  and source = int_of_string Sys.argv.(2)
+  and sink = int_of_string Sys.argv.(3)
   in
 
   (* Open file *)
   let graph = from_file infile in
 
-  let gr1 = gmap graph (fun x -> int_of_string x) in
+  let gr1 = gmap graph int_of_string in
 
+  let the_graph = ffalgo gr1 source sink in
+  let the_string_graph = the_string_graph gr1 the_graph in
   (* Rewrite the graph that has been read. *)
   let () = 
-    export outfile (gmap (ffalgo gr1 0 12) (fun x -> string_of_int x));
+    export outfile the_string_graph
   in
 
   ();

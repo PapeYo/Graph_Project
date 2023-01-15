@@ -65,3 +65,23 @@ let rec ffalgo gr s t =
     let flow1 = find_max_acceptable_flow gr path1 in
     let gr1 = update_residual_graph gr path1 flow1 in
     ffalgo gr1 s t
+  ;;
+
+
+
+let the_string_graph init_graph ff_graph = 
+
+  let create_arcs init_graph id1 id2 flow =
+    match find_arc init_graph id2 id1 with 
+    | Some(capacity) -> new_arc (init_graph) (id2) (id1) (flow ^ "/" ^ capacity)
+    | None -> init_graph
+  in
+
+  let zero_arcs final_graph id1 id2 capacity =
+    if String.contains_from capacity 0 '/' then final_graph
+    else new_arc (final_graph) (id1) (id2) ("0/" ^ capacity)
+  in
+
+  let string_ff_graph = (gmap ff_graph string_of_int) in 
+  let final_graph = e_fold string_ff_graph create_arcs (gmap init_graph string_of_int) in
+  e_fold final_graph zero_arcs final_graph
