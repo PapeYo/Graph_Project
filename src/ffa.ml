@@ -41,21 +41,6 @@ let rec update_residual_graph gr path flow =
   | id1::id2::rest -> update_residual_graph (add_arc (add_arc gr id1 id2 (-flow)) id2 id1 flow) (id2::rest) flow
 
 
-(* let remove_zero_label gr =
-  let graph = clone_nodes gr in
-  let two_in_one id1 = 
-    match out_arcs gr id1 with
-    | [] -> graph ;
-    | (id2, label)::rest ->
-      (match find_arc gr id2 id1 with
-      | None -> new_arc graph id1 id2 (label^"/"^label)
-      | Some label2 -> new_arc graph id1 id2 (label^"/"^string_of_int((int_of_string label) + (int_of_string label2)))
-      )
-  in
-  n_iter gr two_in_one
-*)
-
-
 let rec ffalgo gr s t =
   match find_path gr [] s t with
   | [] -> gr
@@ -65,3 +50,23 @@ let rec ffalgo gr s t =
     let flow1 = find_max_acceptable_flow gr path1 in
     let gr1 = update_residual_graph gr path1 flow1 in
     ffalgo gr1 s t
+  ;;
+
+
+
+let the_string_graph init_graph ff_graph = 
+
+  let create_arcs init_graph id1 id2 flow =
+    match find_arc init_graph id2 id1 with 
+    | Some(capacity) -> new_arc (init_graph) (id2) (id1) (flow ^ "/" ^ capacity)
+    | None -> init_graph
+  in
+
+  let zero_arcs final_graph id1 id2 capacity =
+    if String.contains_from capacity 0 '/' then final_graph
+    else new_arc (final_graph) (id1) (id2) ("0/" ^ capacity)
+  in
+
+  let string_ff_graph = (gmap ff_graph string_of_int) in 
+  let final_graph = e_fold string_ff_graph create_arcs (gmap init_graph string_of_int) in
+  e_fold final_graph zero_arcs final_graph
