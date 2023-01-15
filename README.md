@@ -1,4 +1,4 @@
-Ocaml project : Ford-Kulkerson algorithm by 'Yohan JARNAC and Valentin GUITTARD'
+Ocaml project : Ford-Kulkerson algorithm by `Yohan JARNAC and Valentin GUITTARD`
 
 A makefile provides some useful commands:
  - `make build` to compile. This creates an ftest.native executable
@@ -12,5 +12,5 @@ In case of trouble with the VSCode extension (e.g. the project does not build, t
 
 To change the initial graph file, the source node and/or the sink node, please open the Makefile.
 the fourth part of it is the **demo** section.
-Its third line is './ftest.native *path/to/graph_file* *id_source_node* *id_sink_node* *name_of_output_file*'.
+Its third line is `./ftest.native *path/to/graph_file* *id_source_node* *id_sink_node* *name_of_output_file*`.
 The four parameters are what you might modify.
