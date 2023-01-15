@@ -41,21 +41,6 @@ let rec update_residual_graph gr path flow =
   | id1::id2::rest -> update_residual_graph (add_arc (add_arc gr id1 id2 (-flow)) id2 id1 flow) (id2::rest) flow
 
 
-(* let remove_zero_label gr =
-  let graph = clone_nodes gr in
-  let two_in_one id1 = 
-    match out_arcs gr id1 with
-    | [] -> graph ;
-    | (id2, label)::rest ->
-      (match find_arc gr id2 id1 with
-      | None -> new_arc graph id1 id2 (label^"/"^label)
-      | Some label2 -> new_arc graph id1 id2 (label^"/"^string_of_int((int_of_string label) + (int_of_string label2)))
-      )
-  in
-  n_iter gr two_in_one
-*)
-
-
 let rec ffalgo gr s t =
   match find_path gr [] s t with
   | [] -> gr

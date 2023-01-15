@@ -1,4 +1,3 @@
-
 build:
 	@echo "\n==== COMPILING ====\n"
 	ocamlbuild ftest.native
@@ -11,7 +10,7 @@ edit:
 
 demo: build
 	@echo "\n==== EXECUTING ====\n"
-	./ftest.native graphs/graph2.txt 1 2 outfile
+	./ftest.native graphs/graph2.txt 0 12 outfile
 	@echo "\n==== RESULT ==== (content of outfile) \n"
 	@cat outfile
 
